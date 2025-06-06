@@ -37,6 +37,11 @@ def search(request):
     # Obtenemos favoritos solo si el usuario está logueado
     if request.user.is_authenticated:
             favourite_list = services.getAllFavourites(request)
+    #si el pokemon esta en la lista de favoritos, no mostrar el boton de agregar
+    if request.user.is_authenticated:
+    favourite_list = [fav.pokemon_id for fav in services.getAllFavourites(request)]
+else:
+    favourite_list = []
     else:
             favourite_list = []
 

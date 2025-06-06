@@ -30,7 +30,21 @@
             <button type="submit" class="btn btn-success">PLANTA</button>
         </form>
     </div>
+{% for image in images %}
+    <div class="pokemon-card">
+        <h3>{{ image.name }}</h3>
+        <img src="{{ image.url }}" alt="{{ image.name }}">
 
+        {% if image.id not in favourite_list %}
+            <form method="post" action="{% url 'add_favourite' image.id %}">
+                {% csrf_token %}
+                <button type="submit">Agregar a Favoritos</button>
+            </form>
+        {% else %}
+            <p>Ya en favoritos</p>
+        {% endif %}
+    </div>
+{% endfor %}
         <div class="row row-cols-1 row-cols-md-3 g-4">
         {% if images|length == 0 %}
         <h2 class="text-center">La búsqueda no arrojó resultados...</h2>
@@ -42,14 +56,13 @@
         {% if 'fire' in img.types %}
          border-danger
         {% elif 'water' in img.types %}
-         border-primary
+         border-info
         {% elif 'grass' in img.types %}
          border-success
         {% else %}
          border-warning
         {% endif %}
         mb-3 ms-5" style="max-width: 540px;">
-
             <!-- Dar formato a cada card  -->
                  <div class="row g-0">
                      <div class="col-md-4">
